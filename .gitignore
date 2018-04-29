@@ -1,12 +1,13 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
-
-.mvn/
-mvnw
-mvnw.cmd
-
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
+
+/node_modules/
+/target/
+/src/main/resources/static/built/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+mvnw
+mvnw.cmd

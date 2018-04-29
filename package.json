@@ -1,0 +1,22 @@
+{
+  "name": "SubwayStatusCheck",
+  "version": "0.0.1",
+  "description": "API REST",
+  "main": "index.js",
+  "author": "Ignacio Vila",
+  "license": "UBA",
+  "repository": "git@github.com:ignaciovila/subway-status-check.git",
+  "private": true,
+  "dependencies": {
+    "ajv": "^6.4.0",
+    "axios": "^0.17.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^3.3.7",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-scripts": "^1.1.4",
+    "webpack": "^3.8.1"
+  }
+}
