@@ -1,6 +1,5 @@
 package com.ignacio.vila.subwaystatuscheck.service;
 
-import com.ignacio.vila.subwaystatuscheck.SubwayStatusException;
 import com.ignacio.vila.subwaystatuscheck.model.LineStatus;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -9,10 +8,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.thymeleaf.expression.Lists;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,16 +18,19 @@ public class SubwayStatusService {
     private final static Logger logger = Logger.getLogger(SubwayStatusService.class);
 
     public List<LineStatus> getAllLinesStatuses() {
+        List<LineStatus> lineStatuses = new ArrayList<>();
+
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject("http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias", String.class);
         JSONParser parser = new JSONParser();
-        JSONArray jsonArray = null;
+        JSONArray jsonArray;
         try {
             jsonArray = (JSONArray) parser.parse(response);
         } catch (ParseException e) {
             logger.info(e.getStackTrace());
+            return lineStatuses;
         }
-        List<LineStatus> lineStatuses = new ArrayList<>();
+
         Iterator<JSONObject> iterator = jsonArray.iterator();
         while (iterator.hasNext()) {
             JSONObject jsonObject = iterator.next();
