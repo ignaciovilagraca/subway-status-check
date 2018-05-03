@@ -1,6 +1,6 @@
 package com.ignacio.vila.subwaystatuscheck.service;
 
-import com.ignacio.vila.subwaystatuscheck.model.LineStatus;
+import com.ignacio.vila.subwaystatuscheck.model.Line;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,8 +17,8 @@ import java.util.List;
 public class SubwayStatusService {
     private final static Logger logger = Logger.getLogger(SubwayStatusService.class);
 
-    public List<LineStatus> getAllLinesStatuses() {
-        List<LineStatus> lineStatuses = new ArrayList<>();
+    public List<Line> getAllLinesStatuses() {
+        List<Line> lines = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject("http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias", String.class);
@@ -28,21 +28,21 @@ public class SubwayStatusService {
             jsonArray = (JSONArray) parser.parse(response);
         } catch (ParseException e) {
             logger.info(e.getStackTrace());
-            return lineStatuses;
+            return lines;
         }
 
         Iterator<JSONObject> iterator = jsonArray.iterator();
         while (iterator.hasNext()) {
             JSONObject jsonObject = iterator.next();
-            LineStatus lineStatus = new LineStatus(String.valueOf(jsonObject.get("LineName")), String.valueOf(jsonObject.get("LineStatus")), Integer.valueOf((String) jsonObject.get("LineFrequency")));
-            lineStatuses.add(lineStatus);
+            Line line = new Line(String.valueOf(jsonObject.get("LineName")), String.valueOf(jsonObject.get("LineStatus")), Integer.valueOf((String) jsonObject.get("LineFrequency")));
+            lines.add(line);
         }
 
-        return lineStatuses;
+        return lines;
     }
 
-    public LineStatus getLineStatus(String id) {
-        List<LineStatus> lineStatuses = getAllLinesStatuses();
-        return lineStatuses.stream().filter(o -> o.getLineName().equals(id)).findAny().orElse(null);
+    public Line getLineStatus(String id) {
+        List<Line> lines = getAllLinesStatuses();
+        return lines.stream().filter(o -> o.getLineName().equals(id)).findAny().orElse(null);
     }
 }

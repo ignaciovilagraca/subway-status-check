@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class LineStatus {
+public class Line {
     @Id
     @GeneratedValue
     private Integer id;
@@ -14,10 +14,10 @@ public class LineStatus {
     private String lineStatus;
     private Integer lineFrequency;
 
-    public LineStatus() {
+    public Line() {
     }
 
-    public LineStatus(String lineName, String lineStatus, Integer lineFrequency) {
+    public Line(String lineName, String lineStatus, Integer lineFrequency) {
         this.lineName = lineName;
         this.lineStatus = lineStatus;
         this.lineFrequency = lineFrequency;
