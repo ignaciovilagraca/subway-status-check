@@ -2,10 +2,6 @@ import React from "react";
 import LineContainer from "./LineContainer";
 
 export default class App extends React.Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <div>

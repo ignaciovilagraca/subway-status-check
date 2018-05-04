@@ -15,7 +15,7 @@ public class SubwayStatusController {
     SubwayStatusService subwayStatusService;
 
     @RequestMapping("/Status")
-    public List<Line> getALineStatuses() {
+    public List<Line> getAllLineStatuses() {
         return subwayStatusService.getAllLinesStatuses();
     }
 
