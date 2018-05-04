@@ -10,18 +10,10 @@ export default class App extends React.Component {
         return (
             <div>
                 <div className="navbar bg-dark">
-                    <a className="navbar-brand" href="/">Subway Status Checker</a>
+                    <div className="navbar-brand app-name">Subway Status Checker</div>
                 </div>
                 <div className="row padded">
-                    <div className="col-md-2">
-
-                    </div>
-                    <div className="col-md-8">
-                        <LineContainer/>
-                    </div>
-                    <div className="col-md-2">
-
-                    </div>
+                    <LineContainer/>
                 </div>
             </div>
         );
