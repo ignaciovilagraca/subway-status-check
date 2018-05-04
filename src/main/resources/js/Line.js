@@ -1,7 +1,12 @@
 import React from "react";
-import moment from "moment";
 
 export default class Line extends React.Component {
+    toMMSS() {
+        var minutes = Math.floor(this.props.line.lineFrequency / 60);
+        var seconds = this.props.line.lineFrequency - minutes * 60;
+        return (minutes > 9 ? minutes : "0" + minutes) + ":" + (seconds > 9 ? seconds : "0" + seconds);
+    }
+
     render() {
         return (
             <div className="col-md-2">
@@ -11,7 +16,7 @@ export default class Line extends React.Component {
                         <div className="card-body">
                             <div className="card-title centered">Estado: {this.props.line.lineStatus}</div>
                             <div
-                                className="card-text centered">Frecuencia: {moment().seconds(this.props.line.lineFrequency).format('mm:ss')}</div>
+                                className="card-text centered">Frecuencia: {this.toMMSS()}</div>
                         </div>
                     </div>
                 </div>
