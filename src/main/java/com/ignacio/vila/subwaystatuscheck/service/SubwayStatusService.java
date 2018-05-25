@@ -1,16 +1,14 @@
 package com.ignacio.vila.subwaystatuscheck.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.ignacio.vila.subwaystatuscheck.model.Line;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -18,24 +16,26 @@ public class SubwayStatusService {
     private final static Logger logger = Logger.getLogger(SubwayStatusService.class);
 
     public List<Line> getAllLinesStatuses() {
-        List<Line> lines = new ArrayList<>();
+        List lines = new ArrayList<Line>();
 
         RestTemplate restTemplate = new RestTemplate();
-        String response = restTemplate.getForObject("http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias", String.class);
-        JSONParser parser = new JSONParser();
-        JSONArray jsonArray;
-        try {
-            jsonArray = (JSONArray) parser.parse(response);
-        } catch (ParseException e) {
-            logger.info(e.getStackTrace());
-            return lines;
-        }
 
-        Iterator<JSONObject> iterator = jsonArray.iterator();
-        while (iterator.hasNext()) {
-            JSONObject jsonObject = iterator.next();
-            Line line = new Line(String.valueOf(jsonObject.get("LineName")), String.valueOf(jsonObject.get("LineStatus")), Integer.valueOf((String) jsonObject.get("LineFrequency")));
-            lines.add(line);
+        String response = restTemplate.getForObject("http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias", String.class);
+
+        Gson gson = new Gson();
+
+        List<JsonObject> jsonObjects = gson.fromJson(response, new TypeToken<List<JsonObject>>(){}.getType());
+
+        for (JsonObject jsonObject:
+             jsonObjects) {
+
+            String lineName = jsonObject.getAsJsonPrimitive("LineName").getAsString();
+
+            String lineStatus = jsonObject.getAsJsonPrimitive("LineStatus").getAsString();
+
+            Integer lineFrequency = jsonObject.getAsJsonPrimitive("LineFrequency").getAsInt();
+
+            lines.add(new Line(lineName, lineStatus, lineFrequency));
         }
 
         return lines;
