@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class SubwayStatusService {
     private static final Logger log = Logger.getLogger(SubwayStatusService.class);
-    private static final String API_METROVIAS = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
+    private static final String SUBWAY_API = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
 
     private RestTemplate restTemplate;
     private Gson gson;
@@ -27,7 +27,7 @@ public class SubwayStatusService {
     public List<Line> getAllLinesStatuses() {
         List lines = new ArrayList<Line>();
 
-        String response = restTemplate.getForObject(API_METROVIAS, String.class);
+        String response = restTemplate.getForObject(SUBWAY_API, String.class);
 
         List<JsonObject> jsonObjects = gson.fromJson(response, new TypeToken<List<JsonObject>>() {
         }.getType());
@@ -47,6 +47,8 @@ public class SubwayStatusService {
 
             log.info("Fetched information for line: ".concat(lineName));
         }
+
+        log.info("Fetched statuses successfully");
 
         return lines;
     }
