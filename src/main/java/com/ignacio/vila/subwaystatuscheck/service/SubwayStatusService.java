@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class SubwayStatusService {
-    private static final Logger logger = Logger.getLogger(SubwayStatusService.class);
+    private static final Logger log = Logger.getLogger(SubwayStatusService.class);
     private static final String API_METROVIAS = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
 
     private RestTemplate restTemplate;
@@ -45,7 +45,7 @@ public class SubwayStatusService {
 
             lines.add(new Line(lineName, lineStatus, parsedLineFrequency));
 
-            logger.info("Fetched information for line: ".concat(lineName));
+            log.info("Fetched information for line: ".concat(lineName));
         }
 
         return lines;
