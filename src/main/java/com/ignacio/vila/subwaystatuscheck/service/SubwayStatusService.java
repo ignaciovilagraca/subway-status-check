@@ -36,6 +36,8 @@ public class SubwayStatusService {
             Integer lineFrequency = jsonObject.getAsJsonPrimitive("LineFrequency").getAsInt();
 
             lines.add(new Line(lineName, lineStatus, lineFrequency));
+
+            logger.info("Fetched information for line: ".concat(lineName));
         }
 
         return lines;
