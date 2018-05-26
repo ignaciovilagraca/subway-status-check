@@ -17,17 +17,17 @@ public class SubwayStatusService {
     private static final String API_METROVIAS = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
 
     private RestTemplate restTemplate;
+    private Gson gson;
 
     public SubwayStatusService(){
         restTemplate = new RestTemplate();
+        gson = new Gson();
     }
 
     public List<Line> getAllLinesStatuses() {
         List lines = new ArrayList<Line>();
 
         String response = restTemplate.getForObject(API_METROVIAS, String.class);
-
-        Gson gson = new Gson();
 
         List<JsonObject> jsonObjects = gson.fromJson(response, new TypeToken<List<JsonObject>>(){}.getType());
 
@@ -40,7 +40,7 @@ public class SubwayStatusService {
 
             String lineFrequency = jsonObject.getAsJsonPrimitive("LineFrequency").getAsString();
 
-            Integer parsedLineFrequency = ((lineFrequency.isEmpty() ? 0 : Integer.valueOf(lineFrequency)));
+            Integer parsedLineFrequency = lineFrequency.isEmpty() ? 0 : Integer.valueOf(lineFrequency);
 
             lines.add(new Line(lineName, lineStatus, parsedLineFrequency));
 
