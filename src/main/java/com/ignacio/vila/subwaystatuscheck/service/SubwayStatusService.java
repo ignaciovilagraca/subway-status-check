@@ -19,7 +19,7 @@ public class SubwayStatusService {
     private RestTemplate restTemplate;
     private Gson gson;
 
-    public SubwayStatusService(){
+    public SubwayStatusService() {
         restTemplate = new RestTemplate();
         gson = new Gson();
     }
@@ -29,10 +29,11 @@ public class SubwayStatusService {
 
         String response = restTemplate.getForObject(API_METROVIAS, String.class);
 
-        List<JsonObject> jsonObjects = gson.fromJson(response, new TypeToken<List<JsonObject>>(){}.getType());
+        List<JsonObject> jsonObjects = gson.fromJson(response, new TypeToken<List<JsonObject>>() {
+        }.getType());
 
-        for (JsonObject jsonObject:
-             jsonObjects) {
+        for (JsonObject jsonObject :
+                jsonObjects) {
 
             String lineName = jsonObject.getAsJsonPrimitive("LineName").getAsString();
 
