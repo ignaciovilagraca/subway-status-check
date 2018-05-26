@@ -13,14 +13,19 @@ import java.util.List;
 
 @Service
 public class SubwayStatusService {
-    private final static Logger logger = Logger.getLogger(SubwayStatusService.class);
+    private static final Logger logger = Logger.getLogger(SubwayStatusService.class);
+    private static final String API_METROVIAS = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
+
+    private RestTemplate restTemplate;
+
+    public SubwayStatusService(){
+        restTemplate = new RestTemplate();
+    }
 
     public List<Line> getAllLinesStatuses() {
         List lines = new ArrayList<Line>();
 
-        RestTemplate restTemplate = new RestTemplate();
-
-        String response = restTemplate.getForObject("http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias", String.class);
+        String response = restTemplate.getForObject(API_METROVIAS, String.class);
 
         Gson gson = new Gson();
 
@@ -33,9 +38,11 @@ public class SubwayStatusService {
 
             String lineStatus = jsonObject.getAsJsonPrimitive("LineStatus").getAsString();
 
-            Integer lineFrequency = jsonObject.getAsJsonPrimitive("LineFrequency").getAsInt();
+            String lineFrequency = jsonObject.getAsJsonPrimitive("LineFrequency").getAsString();
 
-            lines.add(new Line(lineName, lineStatus, lineFrequency));
+            Integer parsedLineFrequency = ((lineFrequency.isEmpty() ? 0 : Integer.valueOf(lineFrequency)));
+
+            lines.add(new Line(lineName, lineStatus, parsedLineFrequency));
 
             logger.info("Fetched information for line: ".concat(lineName));
         }
@@ -46,5 +53,9 @@ public class SubwayStatusService {
     public Line getLineStatus(String id) {
         List<Line> lines = getAllLinesStatuses();
         return lines.stream().filter(o -> o.getLineName().equals(id)).findAny().orElse(null);
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 }
