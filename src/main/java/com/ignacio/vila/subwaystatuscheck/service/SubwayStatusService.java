@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class SubwayStatusService {
     private static final Logger log = Logger.getLogger(SubwayStatusService.class);
-    private static final String SUBWAY_API = "http://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
+    private static final String SUBWAY_API = "https://www.metrovias.com.ar/Subterraneos/Estado?site=Metrovias";
 
     private RestTemplate restTemplate;
     private Gson gson;
